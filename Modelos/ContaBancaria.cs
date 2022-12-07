@@ -9,7 +9,7 @@ namespace Banco.Modelos
 {
     public class ContaBancaria
     {
-        private static int numeroContaSemente = 123456789;
+        private static int numeroContaSemente = 1000;
         public string Numero { get; }
         public string Titular { get; set; }
         public decimal Saldo
@@ -32,8 +32,8 @@ namespace Banco.Modelos
 
         public ContaBancaria(string nome, decimal valorInicial)
         {
-            Numero = numeroContaSemente.ToString();
             numeroContaSemente++;
+            Numero = numeroContaSemente.ToString();
             Titular = nome;
             Depositar(valorInicial, DateTime.Now, "valor inicial");
         }
