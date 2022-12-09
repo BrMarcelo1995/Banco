@@ -8,13 +8,13 @@ namespace Banco
 {
     public class Transacao
     {
-        public decimal Quantia { get; }
+        public decimal valor { get; }
         public DateTime Data { get; }
         public string Descricao { get; }
 
-        public Transacao(decimal quantia, DateTime data, string descricao)
+        public Transacao(decimal valor, DateTime data, string descricao)
         {
-            Quantia = quantia;
+            this.valor = valor;
             Data = data;
             Descricao = descricao;
         }

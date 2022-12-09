@@ -1,5 +1,4 @@
 ﻿using Banco.Modelos;
-using System.Drawing;
 
 try
 {
@@ -8,6 +7,9 @@ try
     "  ##  ##   ##  ##  ###   ##  ##  ### ###\r\n######   ##   ##  ##   ##    ####    #####\n");
 
     string? opcao;
+    List<ContaBancaria> listaContas = new List<ContaBancaria>();
+    ContaBancaria conta = new ContaBancaria();
+
     do
     {
         #region Menu
@@ -19,13 +21,15 @@ try
         Console.WriteLine("::::::CONTAS CADASTRADAS = 6::::::");
         Console.WriteLine("::::::SAIR = 0::::::\n");
 
-        List<ContaBancaria> listaContas = new List<ContaBancaria>();
+        
 
         opcao = Console.ReadLine();
 
         switch (opcao)
         {
             case "1":
+
+                #region collection
                 Console.WriteLine("Informe o nome do titular da conta:");
 
                 string? nome = Console.ReadLine();
@@ -34,9 +38,11 @@ try
 
                 decimal saldoInicial = Convert.ToDecimal(Console.ReadLine());
 
-                listaContas.Add(new ContaBancaria(nome, saldoInicial));
+                conta = new ContaBancaria(nome, saldoInicial);
 
+                listaContas.Add(conta);
 
+                #endregion
                 break;
 
             case "2":
@@ -44,19 +50,19 @@ try
 
                 string? numeroConta = Console.ReadLine();
 
-                foreach (var cont in listaContas)
-                {
-                    if (cont.Numero == "numero")
-                    {
-                        cont.GetHistorico();
-                    }
-                }
-
-                //Console.WriteLine(conta.GetHistorico());
+                Console.WriteLine(ContaService.BuscarConta(listaContas, numeroConta).GetHistorico());
 
                 break;
 
             case "3":
+
+                Console.WriteLine("Digite o número da conta que deseja efetuar o SAQUE: ");
+
+                numeroConta = Console.ReadLine();
+
+
+                conta = ContaService.BuscarConta(listaContas, numeroConta);
+
                 Console.WriteLine("Digite o valor do saque:");
 
                 string? valorSaque = Console.ReadLine();
@@ -65,13 +71,25 @@ try
 
                 string? descSaque = Console.ReadLine();
 
-                //conta.Sacar(Convert.ToDecimal(valorSaque), DateTime.Now, descSaque);
-
-                Console.WriteLine("Saque efetuado com sucesso \n");
+                try
+                {
+                    conta.Sacar(Convert.ToDecimal(valorSaque), DateTime.Now, descSaque);
+                } catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                
 
                 break;
 
             case "4":
+
+                Console.WriteLine("Digite o número da conta que deseja efetuar o DEPOSITO: ");
+
+                numeroConta = Console.ReadLine();
+
+                conta = ContaService.BuscarConta(listaContas, numeroConta);
+
                 Console.WriteLine("Digite o valor do deposito");
 
                 string? valorDeposito = Console.ReadLine();
@@ -80,7 +98,15 @@ try
 
                 string? descDepo = Console.ReadLine();
 
-                //conta.Depositar(Convert.ToDecimal(valorDeposito), DateTime.Now, descDepo);
+                try
+                {
+                    conta.Depositar(Convert.ToDecimal(valorDeposito), DateTime.Now, descDepo);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                
 
                 Console.WriteLine("Deposito Realizado com sucesso \n");
 
