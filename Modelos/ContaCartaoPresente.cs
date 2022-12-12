@@ -9,7 +9,8 @@ namespace Banco.Modelos
     public class ContaCartaoPresente : ContaBancaria
     {
         private readonly decimal _depositoMensal = 0m;
-        public ContaCartaoPresente(string nome, decimal valorInicial, decimal depositoMensal = 0) : base(nome, valorInicial) => _depositoMensal = valorInicial;
+        public ContaCartaoPresente(string nomeTitular, decimal valorInicial, decimal depositoMensal = 0) :
+            base(nomeTitular, valorInicial) => _depositoMensal = depositoMensal;
 
 
         public override void RealizarTransacoesFinalDoMes()
