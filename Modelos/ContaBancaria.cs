@@ -26,11 +26,11 @@ namespace Banco.Modelos
 
         public ContaBancaria() { }
 
-        public ContaBancaria(string nome, decimal valorInicial)
+        public ContaBancaria(string nomeTitular, decimal valorInicial)
         {
             numeroContaSemente++;
             Numero = numeroContaSemente.ToString();
-            Titular = nome;
+            Titular = nomeTitular;
             Depositar(valorInicial, DateTime.Now, "Deposito de Abertura de Conta");
         }
 
@@ -65,12 +65,12 @@ namespace Banco.Modelos
             var report = new StringBuilder();
 
             decimal saldo = 0;
-            report.Append("Data\t\tTransacao\tSaldo Disponível\tDescrição\n");
+            report.Append("Tipo\t\t\t\t\tData\t\tTransacao\tSaldo Disponível\tDescrição\n");
 
             foreach (var item in TodasTransacoes)
             {
                 saldo += item.valor;
-                report.AppendLine($"{item.Data.ToShortDateString()}\t{item.valor}\t\t{saldo}\t\t\t{item.Descricao}");
+                report.AppendLine($"{this.GetType().Name}\t\t\t\t{item.Data.ToShortDateString()}\t{item.valor}\t\t{saldo}\t\t\t{item.Descricao}");
             }
 
             return report.ToString();
