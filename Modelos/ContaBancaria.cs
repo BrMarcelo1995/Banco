@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-
+﻿using System.Text;
 namespace Banco.Modelos
 {
     public class ContaBancaria
     {
-        private static int numeroContaSemente = 123456789;
+        private static int numeroContaSemente = 1000;
         public string Numero { get; }
         public string Titular { get; set; }
         public decimal Saldo
@@ -21,7 +15,7 @@ namespace Banco.Modelos
 
                 foreach (var item in TodasTransacoes)
                 {
-                    saldo += item.Quantia;
+                    saldo += item.valor;
                 }
 
                 return saldo;
@@ -30,12 +24,14 @@ namespace Banco.Modelos
 
         private List<Transacao> TodasTransacoes = new List<Transacao>();
 
-        public ContaBancaria(string nome, decimal valorInicial)
+        public ContaBancaria() { }
+
+        public ContaBancaria(string nomeTitular, decimal valorInicial)
         {
-            Numero = numeroContaSemente.ToString();
             numeroContaSemente++;
-            Titular = nome;
-            Depositar(valorInicial, DateTime.Now, "valor inicial");
+            Numero = numeroContaSemente.ToString();
+            Titular = nomeTitular;
+            Depositar(valorInicial, DateTime.Now, "Deposito de Abertura de Conta");
         }
 
         public void Depositar(decimal quantia, DateTime data, string descricao)
@@ -69,12 +65,12 @@ namespace Banco.Modelos
             var report = new StringBuilder();
 
             decimal saldo = 0;
-            report.Append("Data\t\tQuantidade\tValor\tDescrição\n");
+            report.Append("Tipo\t\t\t\t\tData\t\tTransacao\tSaldo Disponível\tDescrição\n");
 
             foreach (var item in TodasTransacoes)
             {
-                saldo += item.Quantia;
-                report.AppendLine($"{item.Data.ToShortDateString()}\t{item.Quantia}\t{saldo}\t{item.Descricao}");
+                saldo += item.valor;
+                report.AppendLine($"{this.GetType().Name}\t\t\t\t{item.Data.ToShortDateString()}\t{item.valor}\t\t{saldo}\t\t\t{item.Descricao}");
             }
 
             return report.ToString();
