@@ -30,12 +30,21 @@ namespace Banco.Modelos
             }
         }
 
-        public static void ListarHistorico(List<ContaBancaria> Contas)
+        public static void ListarHistorico(List<ContaBancaria> Contas, string NumeroDaConta = "")
         {
-            foreach (var conta in Contas)
+            if (NumeroDaConta != "")
             {
-                Console.WriteLine(conta.GetHistorico());
+                Console.WriteLine(BuscarConta(Contas, NumeroDaConta).GetHistorico());
             }
+            else
+            {
+                foreach (var conta in Contas)
+                {
+                    Console.WriteLine(conta.GetHistorico());
+                }
+            }
+
+
         }
     }
 }
